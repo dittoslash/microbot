@@ -38,11 +38,13 @@ async def on_ready():
 
 @bot.command()
 async def reloadcfg(ctx):
+	if not util.check_can_message_channel(ctx, cfg): return
 	loadCFG()
 	await ctx.send("done")
 
 @bot.command()
 async def roles(ctx):
+	if not util.check_can_message_channel(ctx, cfg): return
 	if cfg["roles"]["enable_categories"]:
 		out = ""
 		for cat, vals in cfg["roles"]["categories"].items():
@@ -53,6 +55,7 @@ async def roles(ctx):
 
 @bot.command()
 async def role(ctx, role):
+	if not util.check_can_message_channel(ctx, cfg): return
 	r = discord.utils.get(ctx.guild.roles, name=role)
 	if r and role in cfg["roles"]["roles"]:
 		if r in ctx.author.roles:
