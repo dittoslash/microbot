@@ -75,6 +75,7 @@ async def iamnot(ctx, role):
 @bot.command()
 @commands.check(adminPerms)
 async def sas(ctx, role, category=""):
+	if not util.check_can_message_channel(ctx, cfg): return
 	r = discord.utils.get(ctx.guild.roles, name=role)
 	if not r and role in cfg["roles"]["roles"]: #role exists in config, not in server
 		await ctx.send("you've fucked something up. the role exists in config, but not on the server. fix ur shit b")
