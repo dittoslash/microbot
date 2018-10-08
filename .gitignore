@@ -1,2 +1,3 @@
 config.toml
 credentials.toml
+__pycache__

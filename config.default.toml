@@ -1,1 +1,28 @@
+[connection]
+token = ""
+
+[server]
+#Find IDs by enabling Developer Mode in Behaviour, then right-click on a channel or server and click Copy ID.
+server_id = 0
+
+channels = [] #List of channels the bot will use.
+force_channels = false #If true, the bot will only communicate in listed channels.
+ignore_others = false #If true, the bot will completely ignore all events in channels outside of the ones listed.
+ignore_channels = [] #List of channels the bot will always ignore, regardless of above settings.
+
+[roles]
+enable_self_assign = true #Enable the self-assign-roles feature.
+roles = [] #list of self-assignable role names
+#roles = ["he", "she", "they", 
+#	"chegg with a gun", "despacito fan", 
+#	"spaghettiore", "valiant egg farmer"
+#] 
+
+enable_categories = true #Enable displaying the roles in categories.
+#If enable_categories is set to true, the above roles array need not be set - it will be automatically populated from the below values.
+#[roles.categories]
+#pronouns = ["he", "she", "they"]
+#genders = ["chegg with a gun", "despacito fan", 
+#	"spaghettiore", "valiant egg farmer"]
+
 

@@ -1,0 +1,2 @@
+def fuckyou():
+	print("fuckyou")
