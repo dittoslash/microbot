@@ -30,7 +30,7 @@ log.basicConfig(level=log.INFO, format='[%(levelname)s] %(message)s')
 
 log.info("==µBot==")
 loadCFG()
-bot = commands.Bot(command_prefix='u')
+bot = commands.Bot(command_prefix='u!')
 
 @bot.event
 async def on_ready():
@@ -54,16 +54,21 @@ async def roles(ctx):
 		await ctx.send("`{}`".format(", ".join(cfg["roles"]["roles"])))
 
 @bot.command()
-async def role(ctx, role):
+async def iam(ctx, role):
 	if not util.check_can_message_channel(ctx, cfg): return
 	r = discord.utils.get(ctx.guild.roles, name=role)
-	if r and role in cfg["roles"]["roles"]:
-		if r in ctx.author.roles:
-			await ctx.author.remove_roles(r)
-			await ctx.send("removed role {}, you had it already".format(role))
-		else:
+	if r and role in cfg["roles"]["roles"] and not r in ctx.author.roles:
 			await ctx.author.add_roles(r)
 			await ctx.send("ok, granted role {}".format(role))
-	else: await ctx.send("role unknown or ungrantable")
+	else: await ctx.send("role unknown, ungrantable, or you already have it")
+
+@bot.command()
+async def iamnot(ctx, role):
+	if not util.check_can_message_channel(ctx, cfg): return
+	r = discord.utils.get(ctx.guild.roles, name=role)
+	if r and role in cfg["roles"]["roles"] and r in ctx.author.roles:
+			await ctx.author.remove_roles(r)
+			await ctx.send("removed role {}".format(role))
+	else: await ctx.send("role unknown, ungrantable, or you don't have it")
 
 bot.run(cfg["connection"]["token"])
