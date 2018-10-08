@@ -25,7 +25,7 @@ def loadCFG():
 	print(cfg)
 
 async def adminPerms(ctx):
-	return ctx.guild.get_role(cfg["server"]["admin_role"]) in ctx.member.roles
+	return ctx.guild.get_role(cfg["server"]["admin_role"]) in ctx.author.roles
 
 log.basicConfig(level=log.INFO, format='[%(levelname)s] %(message)s')
 
@@ -76,14 +76,18 @@ async def iamnot(ctx, role):
 @commands.check(adminPerms)
 async def sas(ctx, role, category=""):
 	r = discord.utils.get(ctx.guild.roles, name=role)
-	if role in cfg["roles"]["roles"]:
+	if not r and role in cfg["roles"]["roles"]: #role exists in config, not in server
+		await ctx.send("you've fucked something up. the role exists in config, but not on the server. fix ur shit b")
+	elif role in cfg["roles"]["roles"]: #role exists in config
 		await ctx.send("role exists")
 	else:
-		if cfg["roles"]["enable_categories"]: cfg["roles"]["categories"][category] = role
-		else: cfg["roles"]["roles"].append(role)
-		if not r: ctx.guild.create_role(name=role)
-		toml.dump(cfg, "config.toml")
-		loadCFG()
+		if cfg["roles"]["enable_categories"]:
+			if not cfg["roles"]["categories"][category]: cfg["roles"]["categories"][category] = [] #create category if it doesn't exist
+			cfg["roles"]["categories"][category].append(role) #add the shit to the category
+		else: cfg["roles"]["roles"].append(role) #add the shit to the not category
+		if not r: ctx.guild.create_role(name=role) #create role if it doesn't exist
+		toml.dump(cfg, open("config.toml", 'w')) #write shit to config
+		loadCFG() #reload config, which'll repopulate the cfg.roles.roles if we're using categories
 		await ctx.send("role created")
 
 bot.run(cfg["connection"]["token"])
