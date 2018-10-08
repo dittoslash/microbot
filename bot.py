@@ -72,4 +72,18 @@ async def iamnot(ctx, role):
 			await ctx.send("removed role {}".format(role))
 	else: await ctx.send("role unknown, ungrantable, or you don't have it")
 
+@bot.command()
+@commands.check(adminPerms)
+async def sas(ctx, role, category=""):
+	r = discord.utils.get(ctx.guild.roles, name=role)
+	if role in cfg["roles"]["roles"]:
+		await ctx.send("role exists")
+	else:
+		if cfg["roles"]["enable_categories"]: cfg["roles"]["categories"][category] = role
+		else: cfg["roles"]["roles"].append(role)
+		if not r: ctx.guild.create_role(name=role)
+		toml.dump(cfg, "config.toml")
+		loadCFG()
+		await ctx.send("role created")
+
 bot.run(cfg["connection"]["token"])
