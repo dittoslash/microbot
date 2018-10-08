@@ -24,7 +24,8 @@ def loadCFG():
 
 	print(cfg)
 
-
+async def adminPerms(ctx):
+	return ctx.guild.get_role(cfg["server"]["admin_role"]) in ctx.member.roles
 
 log.basicConfig(level=log.INFO, format='[%(levelname)s] %(message)s')
 

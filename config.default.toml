@@ -4,6 +4,8 @@ token = ""
 [server]
 #Find IDs by enabling Developer Mode in Behaviour, then right-click on a channel or server and click Copy ID.
 server_id = 0
+force_server = false #If true, the bot will only communicate in this server.
+admin_role = 0 #Required for admin commands.
 
 channels = [] #List of channels the bot will use.
 force_channels = false #If true, the bot will only communicate in listed channels.
